@@ -1,4 +1,4 @@
-Helios::Panoptes version 1.50
+Helios::Panoptes version 1.44
 =============================
 
 Helios::Panoptes is the web administration interface for the Helios 
@@ -42,10 +42,7 @@ HTML::Template::Expr
 
 COPYRIGHT AND LICENSE
 
-Copyright (C) 2008 by CEB Toolbox, Inc.
-
-Portions of this software distribution, where noted, are 
-Copyright  (C) 2012 by Logical Helion, LLC.
+Copyright (C) 2008 by CEB Toolbox, Inc.  
 
 This library is free software; you can redistribute it and/or modify 
 it under the same terms as Perl itself, either Perl version 5.8.0 or, 

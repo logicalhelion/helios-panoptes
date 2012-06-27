@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     NAME              => 'Helios-Panoptes',
-    AUTHOR            => 'Andrew Johnson <lajandy at cpan dotcom>',
+    AUTHOR            => 'Andrew Johnson <ajohnson at ittoolbox dotcom>',
     ABSTRACT          => 'Web administration interface to the Helios distributed job processing system',
     LICENSE           => 'perl',
     VERSION_FROM      => 'lib/Helios/Panoptes.pm', # finds $VERSION

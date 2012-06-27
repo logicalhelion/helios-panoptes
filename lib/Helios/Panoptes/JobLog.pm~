@@ -12,7 +12,7 @@ use Helios::Service;
 use Helios::Error;
 use Helios::LogEntry::Levels ':all';
 
-our $VERSION = '1.50_2630';
+our $VERSION = '1.50_2620';
 
 our $CONF_PARAMS;
 our @LOG_PRIORITIES = ('LOG_EMERG','LOG_ALERT','LOG_CRIT','LOG_ERR','LOG_WARNING','LOG_NOTICE','LOG_INFO','LOG_DEBUG');
