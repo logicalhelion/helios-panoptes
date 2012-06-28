@@ -8,10 +8,10 @@
 		<p style="text-align: center; font-weight: bold; font-size: 16px; padding: 0; margin: 0;">Job Details</p>
 		<table cellpadding=0 cellspacing=0 class="data_form_table">
 			<tr><td class="data_form_head">Job ID</td>		<td class="data_text"><tmpl_var jobid></td></tr>
+			<tr><td class="data_form_head">Service Name</td>	<td class="data_text"><tmpl_var job_service_name></td></tr>
 			<tr><td class="data_form_head">Insert Time</td>		<td class="data_text"><tmpl_var job_insert_time></td></tr>			
 			<tr><td class="data_form_head">Run After</td>		<td class="data_text"><tmpl_var job_run_after></td></tr>
 			<tr><td class="data_form_head">Grabbed Until</td>	<td class="data_text"><tmpl_var job_grabbed_until></td></tr>
-			<tr><td class="data_form_head">Service Name</td>	<td class="data_text"><tmpl_var job_service_name></td></tr>
 			<tr><td class="data_form_head">Arguments</td>		<td class="data_text"><textarea rows=10 cols=30><tmpl_var job_arg></textarea></td></tr>
 		</table>
 	</div>
@@ -24,7 +24,7 @@
 				<td class="data_head">Message</td>
 			</tr>
 		<tmpl_loop error_entries>
-			<tr style="background-color: <tmpl_if __even__>gray;<tmpl_else>silver;</tmpl_if>">
+			<tr style="background-color: <tmpl_if __even__>#efefef;<tmpl_else>#eaeaea;</tmpl_if>">
 				<td class="data_number" style="white-space: nowrap;"><tmpl_var error_time></td>
 				<td class="data_text"><tmpl_var funcname></td>
 				<td class="data_text"><tmpl_var message></td>
@@ -46,7 +46,7 @@
 			<td class="data_head">Exit Status</td>
 		</tr>
 	<tmpl_loop history_entries>
-		<tr style="background-color: <tmpl_if __even__>gray;<tmpl_else>silver;</tmpl_if>">
+		<tr style="background-color: <tmpl_if __even__>#efefef;<tmpl_else>#eaeaea;</tmpl_if>">
 			<td class="data_text" style="white-space: nowrap; text-align: center;"><tmpl_var complete_time></td>
 			<td class="data_text" style="white-space: nowrap; text-align: center;"><tmpl_var grabbed_until></td>
 			<td class="data_text" style="white-space: nowrap; text-align: center;"><tmpl_var run_after></td>
@@ -70,7 +70,7 @@
 			<td class="data_head">Message</td>
 		</tr>
 	<tmpl_loop log_entries>
-		<tr style="background-color: <tmpl_if __even__>gray;<tmpl_else>silver;</tmpl_if>">
+		<tr style="background-color: <tmpl_if __even__>#efefef;<tmpl_else>#eaeaea;</tmpl_if>">
 			<td class="data_number" style="white-space: nowrap;"><tmpl_var created_at></td>
 			<td class="data_text"><tmpl_var host></td>
 			<td class="data_text"><tmpl_var job_class></td>

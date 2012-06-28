@@ -7,12 +7,13 @@ use base qw(CGI::Application);
 use Data::Dumper;
 
 use CGI::Application::Plugin::DBH qw(dbh_config dbh);
+use Data::ObjectDriver::Driver::DBI;
 
 use Helios::Service;
 use Helios::Error;
 use Helios::LogEntry::Levels ':all';
 
-our $VERSION = '1.50_2630';
+our $VERSION = '1.50_2631';
 
 our $CONF_PARAMS;
 our @LOG_PRIORITIES = ('LOG_EMERG','LOG_ALERT','LOG_CRIT','LOG_ERR','LOG_WARNING','LOG_NOTICE','LOG_INFO','LOG_DEBUG');
@@ -101,6 +102,7 @@ sub rm_job_log {
 	}	
 
 	# JOB
+=bad
 	my $jobtb_sql = qq{ SELECT funcid, insert_time, run_after, grabbed_until, arg FROM job WHERE jobid = ? };
 	my $jobtb_sth = $dbh->prepare_cached($jobtb_sql);
 	$jobtb_sth->execute($jobid);
@@ -112,8 +114,18 @@ sub rm_job_log {
 	$jobinfo{run_after}     = $jobtb_rs->[2] ? scalar localtime($jobtb_rs->[2]) : undef;
 	$jobinfo{grabbed_until} = $jobtb_rs->[3] ? scalar localtime($jobtb_rs->[3]) : undef;
 	$jobinfo{arg}           = $jobtb_rs->[4];
+=cut
+	$jobinfo{jobid} = $jobid;
+	my $drvr = $self->initDriver();
+	my $sj = $drvr->lookup('TheSchwartz::Job' => $jobid);
+	if ( defined($sj) ) {
+		$jobinfo{service_name}  = $funcmap{ $sj->funcid };
+		$jobinfo{insert_time}   = scalar localtime($sj->insert_time);
+		$jobinfo{run_after}     = scalar localtime($sj->run_after);
+		$jobinfo{grabbed_until} = scalar localtime($sj->grabbed_until);
+		$jobinfo{arg}           = $sj->arg()->[0];
+	}
 
-	
 	# ERROR
 	my $errtb_sql = qq{ SELECT funcid, error_time, message FROM error WHERE jobid = ? ORDER BY error_time DESC };
 	my $errtb_sth = $dbh->prepare_cached($errtb_sql);
@@ -173,7 +185,7 @@ sub rm_job_log {
 		push(@loginfo, \%log);
 	}
 	
-	my $t = $self->load_tmpl('../cgi-bin/tmpl/job_log.html', die_on_bad_params => 0, loop_context_vars => 1);
+	my $t = $self->load_tmpl('job_log.html', die_on_bad_params => 0, loop_context_vars => 1);
 	$t->param(TITLE => "Helios - Job Log " . $jobid);
 	$t->param(JOBID => $jobid);
 	
@@ -211,7 +223,16 @@ sub getFuncmap {
 	return %FUNCMAP;
 }
 
-
+sub initDriver {
+	my $self = shift;
+	my $config = $CONF_PARAMS;
+	my $driver = Data::ObjectDriver::Driver::DBI->new(
+	    dsn      => $config->{dsn},
+	    username => $config->{user},
+	    password => $config->{password}
+	);	
+	return $driver;	
+}
 
 1;
 __END__

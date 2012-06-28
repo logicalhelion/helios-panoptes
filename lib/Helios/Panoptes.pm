@@ -11,7 +11,7 @@ use Error qw(:try);
 
 use Helios::Service;
 
-our $VERSION = '1.50_2630';
+our $VERSION = '1.50_2631';
 our $CONF_PARAMS;
 
 =head1 NAME

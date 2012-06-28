@@ -7,7 +7,7 @@ use CGI::Fast ();
 
 use Helios::Panoptes::JobLog;
 
-our $VERSION = '1.50_2630';
+our $VERSION = '1.50_2631';
 
 while (my $q = new CGI::Fast){
    my $hpjl = Helios::Panoptes::JobLog->new(QUERY => $q, TMPL_PATH => 'tmpl');   

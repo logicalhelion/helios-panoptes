@@ -1,5 +1,7 @@
 Revision history for Perl extension Helios::Panoptes.
 
+1.50_2631 Wed Jun 27 10:50:00 2012
+	-Further JobLog.pm fixes
 1.50_2630 Wed Jun 27 01:15:00 2012
 	-Completely rewritten joblog.pl/JobLog.pm to work with Oracle 
 	and FastCGI
