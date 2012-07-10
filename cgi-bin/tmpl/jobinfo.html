@@ -1,0 +1,124 @@
+<tmpl_include name="header.html">
+
+<div>
+Job <tmpl_var jobid>
+</div>
+
+<div >
+
+	<div >
+		<p >Job Details</p>
+		<table cellpadding="0" cellspacing="0" >
+			<tr><td >Job ID</td>		<td ><tmpl_var jobid></td></tr>
+			<tr><td >Service Name</td>	<td ><tmpl_var job_service_name></td></tr>
+			<tr><td >Insert Time</td>   <td ><tmpl_var job_insert_time></td></tr>			
+			<tr><td >Run After</td>		<td ><tmpl_var job_run_after></td></tr>
+			<tr><td >Grabbed Until</td>	<td ><tmpl_var job_grabbed_until></td></tr>
+			<tr><td >Arguments</td>		<td ><textarea rows="10" cols="30""><tmpl_var job_arg></textarea></td></tr>
+		</table>
+	</div>
+
+	<div >
+		<p >Errors</p>
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td >Error Time</td>
+				<td >Service</td>
+				<td >Message</td>
+			</tr>
+
+			<tmpl_if errors>
+
+				<tmpl_loop errors>
+
+			<tr >
+				<td ><tmpl_var error_time></td>
+				<td ><tmpl_var funcname></td>
+				<td ><tmpl_var message></td>
+			</tr>
+
+				</tmpl_loop>
+
+			<tmpl_else>
+
+			<tr><td colspan="3">No errors found.</td></tr>
+
+			</tmpl_if>
+
+		</table>
+	</div>
+
+
+<div >
+	<p >Job History</p>
+	<table cellpadding="0" cellspacing="0" >
+		<tr>
+			<td >Complete Time</td>
+			<td >Grabbed Until</td>
+			<td >Run After</td>
+			<td >Service</td>
+			<td >Exit Status</td>
+		</tr>
+		
+		<tmpl_if job_history>
+
+			<tmpl_loop job_history>
+		<tr >
+			<td class="data_text" style="white-space: nowrap; text-align: center;"><tmpl_var complete_time></td>
+			<td class="data_text" style="white-space: nowrap; text-align: center;"><tmpl_var grabbed_until></td>
+			<td class="data_text" style="white-space: nowrap; text-align: center;"><tmpl_var run_after></td>
+			<td class="data_text" style="text-align: center;"><tmpl_var funcname></td>
+			<td class="data_text" style="text-align: center;"><tmpl_var exitstatus></td>
+		</tr>
+			</tmpl_loop>
+
+		<tmpl_else>
+
+		<tr><td colspan="5">No job history found.</td></tr>		
+
+		</tmpl_if>
+
+	</table>
+</div>
+
+
+<div >
+	<p >Log Entries</p>
+	<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td >Time</td>
+			<td >Host</td>
+			<td >Service</td>
+			<td >PID</td>
+			<td >Priority</td>
+			<td >Message</td>
+		</tr>
+		
+		<tmpl_if log_entries>
+
+			<tmpl_loop log_entries>
+
+		<tr >
+			<td ><tmpl_var log_time></td>
+			<td ><tmpl_var host></td>
+			<td ><tmpl_var job_class></td>
+			<td ><tmpl_var pid></td>
+			<td ><tmpl_var priority></td>
+			<td ><tmpl_var message></td>
+		</tr>
+
+			</tmpl_loop>
+
+		<tmpl_else>
+
+		<tr><td colspan="6">No log entries found.</td></tr>
+		
+		</tmpl_if>
+		
+	</table>
+</div>
+</div>
+
+
+<tmpl_include name="footer.html">
+

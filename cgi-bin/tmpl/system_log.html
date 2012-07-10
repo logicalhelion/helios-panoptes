@@ -1,0 +1,40 @@
+<tmpl_include name="header.html">
+<form>
+<tmpl_var priority_list>
+<tmpl_var service_list>
+<tmpl_var time_list>
+<tmpl_var search_field_list>
+<input type="text" name="search_value" size="10" value="<tmpl_var search_value>" />
+<tmpl_var rpp_list>
+<input type="submit" value="Refresh" />
+</form>
+
+<div class="content">
+<table cellpadding="0" cellspacing="0">
+	<tr>
+		<td >Time</td>
+		<td >Host</td>
+		<td >Service</td>
+		<td >Jobid</td>
+		<td >Process&nbsp;ID</td>
+		<td >Priority</td>
+		<td >Message</td>
+	</tr>
+<tmpl_loop log_entries>
+	<tr >
+		<td ><tmpl_var log_time></td>
+		<td ><tmpl_var host></td>
+		<td ><tmpl_var service></td>
+		<td ><a href="jobinfo.pl?jobid=<tmpl_var jobid>"><tmpl_var jobid></a></td>
+		<td ><tmpl_var pid></td>
+		<td ><tmpl_var priority></td>
+		<td ><tmpl_var message></td>
+	</tr>
+</tmpl_loop>
+</table>
+<br>
+</div>
+
+
+<tmpl_include name="footer.html">
+

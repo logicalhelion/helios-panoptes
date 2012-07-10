@@ -1,30 +1,31 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use 5.008;
 use strict;
 use warnings;
 use CGI::Fast ();
 
-use Helios::Panoptes::JobLog;
+use Helios::Panoptes::CollectiveAdmin;
 
-our $VERSION = '1.50_2631';
+our $VERSION = '1.51_2820';
 
 while (my $q = new CGI::Fast){
-   my $hpjl = Helios::Panoptes::JobLog->new(QUERY => $q, TMPL_PATH => 'tmpl');   
-   $hpjl->run();
+   my $app = Helios::Panoptes::CollectiveAdmin->new(QUERY => $q, TMPL_PATH => 'tmpl');   
+   $app->run();
 }
 
 =head1 NAME
 
-joblog.pl  - CGI::Application script to bootstrap Helios::Panoptes::JobLog
+collectiveadmin.pl  - CGI script to bootstrap Helios::Panoptes::CollectiveAdmin
 
 =head1 DESCRIPTION
 
-The joblog.pl is the CGI script that actually runs the Helios::Panoptes::JobLog webapp.
+The collectiveadmin.pl is the CGI script to bootstrap the 
+Helios::Panoptes::CollectiveAdmin webapp.
 
 =head1 SEE ALSO
 
-L<Helios::Panoptes>, L<Helios::Service>, L<helios.pl>, <CGI::Application>, L<HTML::Template>
+L<Helios::Panoptes>, L<Helios>, <CGI::Application>
 
 =head1 AUTHOR 
 

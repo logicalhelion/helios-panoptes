@@ -1,4 +1,4 @@
-Helios::Panoptes version 1.50
+Helios::Panoptes version 1.51
 =============================
 
 Helios::Panoptes is the web administration interface for the Helios 
@@ -21,15 +21,9 @@ appropriate security in place!).
     chmod 755 /usr/lib/cgi-bin/*.pl
     chmod 644 /usr/lib/cgi-bin/tmpl/*.html
 
-After the cgi-bin programs and templates are installed, the helios.ini
-setting file should be edited to add the location of the Helios job 
-submission CGI program to the [global] section:
-
-    job_submit_url=http://localhost/cgi-bin/submitJob.pl
-
-In addition, you'll need to set the HELIOS_INI env var in the web 
-server's configuration so Panoptes knows where to find the global 
-Helios settings file.
+After the cgi-bin programs and templates are installed, you'll need 
+to set the HELIOS_INI env var in the web server's configuration so 
+Panoptes knows where to find the global Helios settings file.
 
 DEPENDENCIES
 
@@ -42,10 +36,11 @@ HTML::Template::Expr
 
 COPYRIGHT AND LICENSE
 
+Portions of this software distribution, where noted, are 
 Copyright (C) 2008 by CEB Toolbox, Inc.
 
 Portions of this software distribution, where noted, are 
-Copyright  (C) 2012 by Logical Helion, LLC.
+Copyright (C) 2012 by Logical Helion, LLC.
 
 This library is free software; you can redistribute it and/or modify 
 it under the same terms as Perl itself, either Perl version 5.8.0 or, 

@@ -1,5 +1,15 @@
 Revision history for Perl extension Helios::Panoptes.
 
+1.51_2820 Tue Jul 10 00:17:00 2012
+	-1.5x series is now development/major overhaul series for 2.00
+	-joblog.pl/JobLog.pm has been replaced by jobinfo.pl/JobInfo.pm
+	-errorlog.pl/ErrorLog.pm has been replaced by systemlog.pl/SystemLog.pm
+	-jobmanager.pl/JobQueue.pm has replaced "Job Queue" view
+	-new Base.pm acts as base class and common code library for 
+	 Panoptes webapps
+	-Job Submit view has been removed for now (it wasn't well 
+	 documented)
+	-all the above are still rough and lack proper CSS styles
 1.50_2631 Wed Jun 27 10:50:00 2012
 	-Further JobLog.pm fixes
 1.50_2630 Wed Jun 27 01:15:00 2012

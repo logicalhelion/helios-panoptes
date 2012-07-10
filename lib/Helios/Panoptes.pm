@@ -11,7 +11,7 @@ use Error qw(:try);
 
 use Helios::Service;
 
-our $VERSION = '1.50_2631';
+our $VERSION = '1.51_2820';
 our $CONF_PARAMS;
 
 =head1 NAME
@@ -295,6 +295,7 @@ sub job_queue_view {
 	my $output;
 	my $sql;
 	my @where_clauses;
+
 
 	# defaults
 	my $time_horizon = 3600;
