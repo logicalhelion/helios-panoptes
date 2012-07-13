@@ -12,7 +12,7 @@ use Data::ObjectDriver::Driver::DBI;
 use Helios::Service;
 use Helios::Error;
 
-our $VERSION = '1.51_2820';
+our $VERSION = '1.51_2830';
 
 our $CONF_PARAMS;
 our %FUNCMAPBYID = ();
@@ -239,11 +239,82 @@ sub parseAllConfigParams {
 	$sth->finish();
 	
 	foreach (@$rs) {
-		$config->{ $_->[0] }->{ $_->[1] }->{ $_->[3] } = $_->[4];
+		$config->{ $_->[0] }->{ $_->[1] }->{ $_->[2] } = $_->[3];
 	}
 
 	return $config;
 }
+
+
+=head2 modParam($action, $worker_class, $host, $param, [$value])
+
+Modify Helios config parameters.  Used by ctrl_panel() and collective() displays.
+
+Valid values for $action:
+
+=over 4
+
+=item add
+
+Add the given parameter for the given class and host
+
+=item delete
+
+Delete the given parameter for the given class and host
+
+=item modify
+
+Modify the given parameter for the given class and host with a new value.  Effectively the same 
+as a delete followed by an add.
+
+=back
+
+Worker class is the name of the class.
+
+Host is the name of the host.  Use '*' to make the parameter global to all instances of the worker 
+class.
+
+Returns a true value if successful and throws an Error::Simple exception otherwise.
+
+=cut
+
+sub modParam {
+	my $self = shift;
+	my $dbh = $self->dbh();
+	my $action = shift;
+	my $worker_class = shift;
+	my $host = shift;
+	my $param = shift;
+	my $value = shift;
+	
+	my $sql;
+
+	unless ($worker_class && $host && $param && $action) {
+		throw Error::Simple("Worker class ($worker_class), host ($host), param ($param), and action ($action) required");
+	}
+
+	SWITCH: {
+		if ($action eq 'add') {
+			$sql = 'INSERT INTO helios_params_tb (host, worker_class, param, value) VALUES (?,?,?,?)';
+			$dbh->do($sql, undef, $host, $worker_class, $param, $value) or throw Error::Simple('modParam add FAILURE: '.$dbh->errstr);
+			last SWITCH;
+		}
+		if ($action eq 'del') {
+			$sql = 'DELETE FROM helios_params_tb WHERE host = ? AND worker_class = ? AND param = ?';
+			$dbh->do($sql, undef, $host, $worker_class, $param) or throw Error::Simple('modParam delete FAILURE: '.$dbh->errstr);
+			last SWITCH;
+		}
+		if ($action eq 'mod') {
+			$self->modParam('del', $worker_class, $host, $param);
+			$self->modParam('add', $worker_class, $host, $param, $value);
+			last SWITCH;
+		}
+		throw Error::Simple("modParam invalid action: $action");
+	}
+
+	return 1;
+}
+
 
 # END CODE Copyright CEB Toolbox, Inc.
 

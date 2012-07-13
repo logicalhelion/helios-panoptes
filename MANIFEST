@@ -8,11 +8,9 @@ cgi-bin/systemlog.pl
 cgi-bin/tmpl/collective_host.html
 cgi-bin/tmpl/collective_service.html
 cgi-bin/tmpl/ctrl_panel.html
-cgi-bin/tmpl/error_log.html
 cgi-bin/tmpl/footer.html
 cgi-bin/tmpl/header.html
 cgi-bin/tmpl/job_queue_view.html
-cgi-bin/tmpl/job_submit.html
 cgi-bin/tmpl/jobinfo.html
 cgi-bin/tmpl/jobmanager.html
 cgi-bin/tmpl/system_log.html
@@ -21,8 +19,6 @@ lib/Helios/Panoptes.pm
 lib/Helios/Panoptes/Base.pm
 lib/Helios/Panoptes/CollectiveAdmin.pm
 lib/Helios/Panoptes/CtrlPanel.pm
-lib/Helios/Panoptes/ErrorLog.pm
-lib/Helios/Panoptes/Helper.pm
 lib/Helios/Panoptes/JobInfo.pm
 lib/Helios/Panoptes/JobQueue.pm
 lib/Helios/Panoptes/SystemLog.pm

@@ -7,13 +7,16 @@ use base 'Helios::Panoptes::Base';
 
 use CGI::Application::Plugin::DBH qw(dbh_config dbh);
 
-our $VERSION = '1.51_2820';
+our $VERSION = '1.51_2830';
 
 sub setup {
 	my $self = shift;
 	$self->start_mode('collective');
 	$self->mode_param('rm');
-	$self->run_modes(collective => 'rm_collective');
+	$self->run_modes(
+		collective => 'rm_collective',
+		conf_mod   => 'rm_conf_mod'
+	);
 	my $config = $self->parseConfig();
 		
 	# connect to db 
@@ -33,7 +36,7 @@ daemon and worker process parameters.
 sub rm_collective {
 	my $self = shift;
 	my $q = $self->query();
-	if ($q->param('groupby') eq 'service') {
+	if ( defined($q->param('groupby')) && $q->param('groupby') eq 'service') {
 		return $self->collective_by_service();		
 	} else {
 		return $self->collective_by_host();
@@ -137,7 +140,7 @@ STATUSSQL
 					SERVICE_CLASS   => $result->[1],
 					SERVICE_VERSION => $result->[2],
 					PROCESS_ID      => $result->[3],
-					REGISTER_TIME   => $dhash->{YYYY}.'-'.$dhash->{MM}.'-'.$dhash->{DD}.' '.$dhash->{HH24}.':'.$dhash->{MI}.':'.$dhash->{SS},
+					REGISTER_TIME   => $dhash->{yyyy}.'-'.$dhash->{mm}.'-'.$dhash->{dd}.' '.$dhash->{hh}.':'.$dhash->{mi}.':'.$dhash->{ss},
 					UPTIME          => $uptime_string,
 					STATUS          => $status,
 					MAX_WORKERS     => $max_workers,
@@ -167,7 +170,7 @@ sub collective_by_service {
 	my $dbh = $self->dbh();
 	my $q = $self->query();
 	my $config = $self->parseAllConfigParams('service');
-	my $register_interval = $config->{register_interval} ? $config->{register_interval} : 360;
+	my $register_interval = $config->{register_interval} ? $config->{register_interval} : 300;
 
 	my $register_threshold = time() - $register_interval;
 
@@ -264,7 +267,7 @@ STATUSSQL
 					SERVICE_CLASS   => $result->[0],
 					SERVICE_VERSION => $result->[2],
 					PROCESS_ID      => $result->[3],
-					REGISTER_TIME   => $dhash->{YYYY}.'-'.$dhash->{MM}.'-'.$dhash->{DD}.' '.$dhash->{HH24}.':'.$dhash->{MI}.':'.$dhash->{SS},
+					REGISTER_TIME   => $dhash->{yyyy}.'-'.$dhash->{mm}.'-'.$dhash->{dd}.' '.$dhash->{hh}.':'.$dhash->{mi}.':'.$dhash->{ss},
 					UPTIME          => $uptime_string,
 					STATUS          => $status,
 					MAX_WORKERS     => $max_workers,
@@ -282,6 +285,37 @@ STATUSSQL
 }
 
 
+# BEGIN CODE Copyright (C) 2012 Logical Helion, LLC.
+
+=head2 rm_conf_mod()
+
+=cut
+
+sub rm_conf_mod {
+	my $self = shift;
+	my $q = $self->query();
+	my $dbh = $self->dbh();
+
+	my $service       = $q->param('service');
+	my $host          = defined($q->param('host')) ? $q->param('host') : '*';
+	my $param_name    = $q->param('param');
+	my $param_value   = $q->param('value');
+	my $action        = $q->param('action');
+
+	unless ($service && $param_name && defined($param_value) && $action) {
+		die("Helios config param modifications require a service, parameter name, value, and action.");
+	}
+	unless ($action eq 'mod' || $action eq 'add' || $action eq 'del') {
+		die("Invalid modParam() action specified (can only be 'add','del','mod')");
+	}
+
+	$self->modParam($action, $service, $host, $param_name, $param_value);
+
+	return $self->rm_collective();
+}
+
+# END CODE Copyright (C) 2012 Logical Helion, LLC.
+
 1;
 __END__
 
@@ -297,6 +331,8 @@ Andrew Johnson, <lajandy at cpan dotorg>
 =head1 COPYRIGHT AND LICENSE
 
 Copyright (C) 2008-9 by CEB Toolbox, Inc.
+
+Portions of this software, where noted, are Copyright (C) 2012 by Logical Helion, LLC.
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself, either Perl version 5.8.0 or, at your option, any later version of Perl 5 you may have available.
 

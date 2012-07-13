@@ -7,7 +7,7 @@ use base 'Helios::Panoptes::Base';
 
 use CGI::Application::Plugin::DBH qw(dbh_config dbh);
 
-our $VERSION = '1.51_2820';
+our $VERSION = '1.51_2830';
 
 sub setup {
 	my $self = shift;
@@ -170,25 +170,6 @@ ACTIVEJOBSQL
 	push(@job_types, $current_job_class);
 
 # END CODE Copyright CEB Toolbox, Inc.
-
-=workinprogress
-	@job_types = map {
-						{	  
-							JOBS => {
-										JOBID         => $result->[1],
-										UNIQKEY       => $result->[2],
-										INSERT_TIME   => $insert_time->{yyyy}  .'-'.$insert_time->{mm}  .'-'.$insert_time->{dd}  .' '.$insert_time->{hh}  .':'.$insert_time->{mi}  .':'.$insert_time->{ss},
-										RUN_AFTER     => $run_after->{yyyy}    .'-'.$run_after->{mm}    .'-'.$run_after->{dd}    .' '.$run_after->{hh}    .':'.$run_after->{mi}    .':'.$run_after->{ss},
-										GRABBED_UNTIL => $grabbed_until->{yyyy}.'-'.$grabbed_until->{mm}.'-'.$grabbed_until->{dd}.' '.$grabbed_until->{hh}.':'.$grabbed_until->{mi}.':'.$grabbed_until->{ss},
-										PRIORITY      => $result->[6],
-										COALESCE      => $result->[7]
-									}
-						} 
-					} @$sth->fetchall_arrayref();	
-	
-
-#[]?
-=cut
 
 	# (re)create form
 	my $time_list = $q->popup_menu(
