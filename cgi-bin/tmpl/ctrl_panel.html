@@ -3,7 +3,7 @@
 <br />
 <tmpl_if classes>
 	<tmpl_loop classes>
-	<div class="class"><a name="<tmpl_var worker_class>" /><tmpl_var worker_class></div>
+	<div class="class"><a name="<tmpl_var service_class>" /><tmpl_var service_class></div>
 
 		<tmpl_loop hosts>
 			<div class="job_header" style="border: solid 1px black; font-weight: bold; margin-left: 10px;">Host: <tmpl_var host></div>
@@ -13,18 +13,18 @@
 				<tr>
 					<td class="data_text" style="font-weight: bold;"><tmpl_var param></td>
 					<td class="data_text">
-					<form method="post" action="./panoptes.pl" style="display: inline">
+					<form method="post" action="./ctrlpanel.pl" style="display: inline">
 						<input type="text" name="value" value="<tmpl_var value>" size="50" class="value_field">
-						<input type="hidden" name="rm" value="ctrl_panel_mod">
-						<input type="hidden" name="action" value="modify">
-						<input type="hidden" name="worker_class" value="<tmpl_var worker_class>">
+						<input type="hidden" name="rm" value="conf_mod">
+						<input type="hidden" name="action" value="mod">
+						<input type="hidden" name="service" value="<tmpl_var service_class>">
 						<input type="hidden" name="host" value="<tmpl_var host>">
 						<input type="hidden" name="param" value="<tmpl_var param>">
 						<input type="submit" value="Change">
-					</form><form method="post" action="./panoptes.pl" style="display: inline">
-						<input type="hidden" name="rm" value="ctrl_panel_mod">
-						<input type="hidden" name="action" value="delete">
-						<input type="hidden" name="worker_class" value="<tmpl_var worker_class>">
+					</form><form method="post" action="./ctrlpanel.pl" style="display: inline">
+						<input type="hidden" name="rm" value="conf_mod">
+						<input type="hidden" name="action" value="del">
+						<input type="hidden" name="service" value="<tmpl_var service_class>">
 						<input type="hidden" name="host" value="<tmpl_var host>">
 						<input type="hidden" name="param" value="<tmpl_var param>">
 						<input type="hidden" name="value" value="<tmpl_var value>">
@@ -36,12 +36,12 @@
 				<tr>
 					<td class="data_text" style="font-style: italic;">New Parameter:</td>
 					<td class="data_text">
-						<form method="post" action="./panoptes.pl">
+						<form method="post" action="./ctrlpanel.pl">
 							<b>Param:</b>&nbsp;<input type="text" name="param">
 							<b>Value:</b>&nbsp;<input type="text" name="value">
-							<input type="hidden" name="rm" value="ctrl_panel_mod">
+							<input type="hidden" name="rm" value="conf_mod">
 							<input type="hidden" name="action" value="add">
-							<input type="hidden" name="worker_class" value="<tmpl_var worker_class>">
+							<input type="hidden" name="service" value="<tmpl_var service_class>">
 							<input type="hidden" name="host" value="<tmpl_var host>">
 							<input type="submit" value="Add">
 						</form>
@@ -57,10 +57,10 @@
 <div class="data_text">
 	<div class="class" style="font-style: italic;">New Service/Host Parameter:</div>
 	<div class="job_header">
-		<form method="post" action="./panoptes.pl">
-			<input type="hidden" name="rm" value="ctrl_panel_mod">
+		<form method="post" action="./ctrlpanel.pl">
+			<input type="hidden" name="rm" value="conf_mod">
 			<input type="hidden" name="action" value="add">
-			<b>Service:</b>&nbsp;<input type="text" name="worker_class">
+			<b>Service:</b>&nbsp;<input type="text" name="service">
 			<b>Host:</b>&nbsp;<input type="text" name="host">
 			<b>Param:</b>&nbsp;<input type="text" name="param">
 			<b>Value:</b>&nbsp;<input type="text" name="value">

@@ -1,7 +1,7 @@
 Revision history for Perl extension Helios::Panoptes.
-
-1.51_2830 Fri Jul 13 17:11:00 2012
-	-fixes for CollectiveAdmin.pm and JobQueue.pm
+1.51_3070 Sun Jul 29 19:11:00 2012
+	-ctrlpanel.pl/CtrlPanel.pm takes over Ctrl Panel view.  Should 
+	 be functional with MySQL & Oracle collective databases.
 1.51_2820 Tue Jul 10 00:17:00 2012
 	-1.5x series is now development/major overhaul series for 2.00
 	-joblog.pl/JobLog.pm has been replaced by jobinfo.pl/JobInfo.pm

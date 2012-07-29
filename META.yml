@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Helios-Panoptes
-version:            1.51_2830
+version:            1.51_3070
 abstract:           Web administration interface to the Helios distributed job processing system
 author:
     - Andrew Johnson <lajandy at cpan dotcom>
