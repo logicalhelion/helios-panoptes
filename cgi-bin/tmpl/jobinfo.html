@@ -1,37 +1,32 @@
 <tmpl_include name="header.html">
 
-<div>
+<h1>
 Job <tmpl_var jobid>
-</div>
+</h1>
 
-<div >
-
-	<div >
-		<p >Job Details</p>
-		<table cellpadding="0" cellspacing="0" >
-			<tr><td >Job ID</td>		<td ><tmpl_var jobid></td></tr>
-			<tr><td >Service Name</td>	<td ><tmpl_var job_service_name></td></tr>
-			<tr><td >Insert Time</td>   <td ><tmpl_var job_insert_time></td></tr>			
-			<tr><td >Run After</td>		<td ><tmpl_var job_run_after></td></tr>
-			<tr><td >Grabbed Until</td>	<td ><tmpl_var job_grabbed_until></td></tr>
-			<tr><td >Arguments</td>		<td ><textarea rows="10" cols="30""><tmpl_var job_arg></textarea></td></tr>
+		<h2>Job Details</h2>
+		<table cellpadding="0" cellspacing="0" style="border: 1px black solid;">
+			<tr><td style="background-color: lightgray; padding: 4px;">Job ID</td>		<td style="padding: 4px;"><tmpl_var jobid></td></tr>
+			<tr><td style="background-color: lightgray; padding: 4px;">Service Name</td>	<td style="padding: 4px;"><tmpl_var job_service_name></td></tr>
+			<tr><td style="background-color: lightgray; padding: 4px;">Insert Time</td>   <td style="padding: 4px;"><tmpl_var job_insert_time></td></tr>			
+			<tr><td style="background-color: lightgray; padding: 4px;">Run After</td>		<td style="padding: 4px;"><tmpl_var job_run_after></td></tr>
+			<tr><td style="background-color: lightgray; padding: 4px;">Grabbed Until</td>	<td style="padding: 4px;"><tmpl_var job_grabbed_until></td></tr>
+			<tr><td style="background-color: lightgray; padding: 4px;">Arguments</td>		<td style="padding: 4px;"><textarea rows="10" cols="30""><tmpl_var job_arg></textarea></td></tr>
 		</table>
-	</div>
 
-	<div >
-		<p >Errors</p>
-		<table cellpadding="0" cellspacing="0">
+		<h2>Errors</h2>
+		<table cellpadding="0" cellspacing="0" class="panoptes_data_table">
 			<tr>
-				<td >Error Time</td>
-				<td >Service</td>
-				<td >Message</td>
+				<th >Error Time</th>
+				<th >Service</th>
+				<th >Message</th>
 			</tr>
 
 			<tmpl_if errors>
 
 				<tmpl_loop errors>
 
-			<tr >
+			<tr class="<tmpl_if __even__>panoptes_data_table_even<tmpl_else>panoptes_data_table_odd</tmpl_if>">
 				<td ><tmpl_var error_time></td>
 				<td ><tmpl_var funcname></td>
 				<td ><tmpl_var message></td>
@@ -41,34 +36,32 @@ Job <tmpl_var jobid>
 
 			<tmpl_else>
 
-			<tr><td colspan="3">No errors found.</td></tr>
+			<tr class="<tmpl_if __even__>panoptes_data_table_even<tmpl_else>panoptes_data_table_odd</tmpl_if>"><td colspan="3">No errors found.</td></tr>
 
 			</tmpl_if>
 
 		</table>
-	</div>
 
 
-<div >
-	<p >Job History</p>
-	<table cellpadding="0" cellspacing="0" >
+	<h2>Job History</h2>
+	<table cellpadding="0" cellspacing="0" class="panoptes_data_table">
 		<tr>
-			<td >Complete Time</td>
-			<td >Grabbed Until</td>
-			<td >Run After</td>
-			<td >Service</td>
-			<td >Exit Status</td>
+			<th >Complete Time</th>
+			<th >Grabbed Until</th>
+			<th >Run After</th>
+			<th >Service</th>
+			<th >Exit Status</th>
 		</tr>
 		
 		<tmpl_if job_history>
 
 			<tmpl_loop job_history>
-		<tr >
-			<td class="data_text" style="white-space: nowrap; text-align: center;"><tmpl_var complete_time></td>
-			<td class="data_text" style="white-space: nowrap; text-align: center;"><tmpl_var grabbed_until></td>
-			<td class="data_text" style="white-space: nowrap; text-align: center;"><tmpl_var run_after></td>
-			<td class="data_text" style="text-align: center;"><tmpl_var funcname></td>
-			<td class="data_text" style="text-align: center;"><tmpl_var exitstatus></td>
+		<tr class="<tmpl_if __even__>panoptes_data_table_even<tmpl_else>panoptes_data_table_odd</tmpl_if>">
+			<td><tmpl_var complete_time></td>
+			<td><tmpl_var grabbed_until></td>
+			<td><tmpl_var run_after></td>
+			<td><tmpl_var funcname></td>
+			<td><tmpl_var exitstatus></td>
 		</tr>
 			</tmpl_loop>
 
@@ -79,26 +72,24 @@ Job <tmpl_var jobid>
 		</tmpl_if>
 
 	</table>
-</div>
 
 
-<div >
-	<p >Log Entries</p>
-	<table cellpadding="0" cellspacing="0">
+	<h2>Log Entries</h2>
+	<table cellpadding="0" cellspacing="0" class="panoptes_data_table">
 		<tr>
-			<td >Time</td>
-			<td >Host</td>
-			<td >Service</td>
-			<td >PID</td>
-			<td >Priority</td>
-			<td >Message</td>
+			<th >Time</th>
+			<th >Host</th>
+			<th >Service</th>
+			<th >PID</th>
+			<th >Priority</th>
+			<th >Message</th>
 		</tr>
 		
 		<tmpl_if log_entries>
 
 			<tmpl_loop log_entries>
 
-		<tr >
+		<tr class="<tmpl_if __even__>panoptes_data_table_even<tmpl_else>panoptes_data_table_odd</tmpl_if>">
 			<td ><tmpl_var log_time></td>
 			<td ><tmpl_var host></td>
 			<td ><tmpl_var job_class></td>
@@ -116,9 +107,8 @@ Job <tmpl_var jobid>
 		</tmpl_if>
 		
 	</table>
-</div>
-</div>
 
+<p>&nbsp;</p>
 
 <tmpl_include name="footer.html">
 

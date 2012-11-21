@@ -8,7 +8,7 @@ use Data::Dumper;
 
 use CGI::Application::Plugin::DBH qw(dbh_config dbh);
 
-our $VERSION = '1.51_2820';
+our $VERSION = '1.51_4720';
 
 sub setup {
 	my $self = shift;
@@ -46,17 +46,28 @@ sub rm_system_log {
 	my @form_priorities   = $q->param('priorities');
 	my $form_funcid       = defined($q->param('service'))   ? $q->param('service')    : 0;
 	my $form_thorizon     = defined($q->param('time'))      ? $q->param('time')       : 300;
-	my $form_search_field = $q->param('search_field');
-	my $form_search_value = $q->param('search_value');
 	my $form_rpp          = defined($q->param('rpp'))       ? $q->param('rpp')        : 50;
+	my $form_host         = defined($q->param('host'))      ? $q->param('host')       :'';
+	my $form_jobid        = defined($q->param('jobid'))     ? $q->param('jobid')      :'';
+	my $form_pid          = defined($q->param('pid'))       ? $q->param('pid')        :'';
+	my $form_message      = defined($q->param('message'))   ? $q->param('message')    :'';
+	my $form_date_begin   = defined($q->param('date_begin'))? $q->param('date_begin') :'';
+	my $form_date_end     = defined($q->param('date_end'))  ? $q->param('date_end')   :'';
 
 	# sanity checks
 	if ( $form_thorizon =~ /\D/ ) { $form_thorizon = 300; }
 	if ( $form_funcid =~ /\D/   ) { $form_funcid = 0; }
 	foreach (@form_priorities) {
 		if ( $_ =~ /\D/ || $_ < 0 || $_ > 7) { @form_priorities = (); last; }
-	}
+	} 
 	if ( $form_rpp =~ /\D/ ) { $form_rpp = 50; }
+	if ( length($form_host) > 64 && $form_host =~ /\W/ ) { $form_host = ''; }
+	if ( length($form_jobid) > 64 && $form_jobid =~ /\D/ ) { $form_jobid = ''; }
+	if ( length($form_pid) > 32 && $form_pid =~ /\D/ ) { $form_pid = ''; }
+	if ( length($form_message) > 256 ) { $form_message = ''; }
+#[]	if ( length($form_date_begin) > 25 && $form_date_begin =~ /[^\d\:\- ]/ ) { $form_date_begin = ''; }
+#[]	if ( length($form_date_end) > 32 && $form_date_end =~ /[^\d\:\- ]/ ) { $form_date_end = ''; }
+
 
 	my $selectfrom = q{
 		SELECT
@@ -73,8 +84,8 @@ sub rm_system_log {
 	};
 	
 	# first WHERE condition:  time horizon
-	push(@whereclauses,'log_time >= ?');
-	push(@plhdrs, time() - $form_thorizon);
+#	push(@whereclauses,'log_time >= ?');
+#	push(@plhdrs, time() - $form_thorizon);
 	
 	# service
 	if ( $form_funcid ) {
@@ -82,30 +93,31 @@ sub rm_system_log {
 		push(@plhdrs, $form_funcid);
 	}
 	
-	if ( $form_search_field && $form_search_value ) {
-		SWITCH : {
-			if ($form_search_field eq 'message') {
-				push(@whereclauses, 'message LIKE ?');
-				push(@plhdrs, '%'.$form_search_value.'%');
-			}
-			if ($form_search_field eq 'host') {
-				push(@whereclauses, 'LOWER(host) = ?');
-				push(@plhdrs, lc( $form_search_value ));
-			}
-			if ($form_search_field eq 'jobid') {
-				push(@whereclauses, 'jobid = ?');
-				push(@plhdrs, $form_search_value);
-			}
-			if ($form_search_field eq 'pid') {
-				push(@whereclauses, 'process_id = ?');
-				push(@plhdrs, $form_search_value);
-			}
-			# there is no default
-			# if searchterm doesn't match a valid search field,
-			# we just skip it
-		}
+	# host
+	if ( $form_host ) {
+		push(@whereclauses, 'host = ?');
+		push(@plhdrs, $form_host);
 	}
 	
+	# jobid
+	if ( $form_jobid ) {
+		push(@whereclauses, 'jobid = ?');
+		push(@plhdrs, $form_jobid);
+	}
+
+	# pid
+	if ( $form_pid ) {
+		push(@whereclauses, 'process_id = ?');
+		push(@plhdrs, $form_pid);
+	}
+
+	# message
+	if ( $form_message ) {
+		push(@whereclauses, 'message LIKE ?');
+		push(@plhdrs, '%'.$form_message.'%');
+	}
+	
+	# priorities
 	if (@form_priorities){
 		if (scalar(@form_priorities) > 1) {
 			push(@whereclauses, ' priority IN ('.join(',', @form_priorities).')');
@@ -115,10 +127,36 @@ sub rm_system_log {
 		}
 	}
 	
+	# date_begin
+	if ( $form_date_begin ) {
+		push(@whereclauses, 'log_time >= ?');
+		push(@plhdrs, $self->parseDateToEpochSeconds($form_date_begin));
+	} else {
+		# if we don't have a begin date, default to 5 min
+		my $beginsecs = time() - 300;
+		my $bd = $self->parseEpochDate($beginsecs);
+		$form_date_begin = join('-',($bd->{yyyy},$bd->{mm}, $bd->{dd})).' '.join(':',($bd->{hh}, $bd->{mi}, $bd->{ss}));
+		push(@whereclauses, 'log_time >= ?');
+		push(@plhdrs, $beginsecs);
+	}
+	
+	# date_end
+	if ( $form_date_end ) {
+		push(@whereclauses, 'log_time < ?');
+		push(@plhdrs, $self->parseDateToEpochSeconds($form_date_end));
+	}
+		
 	my $whereclause = 'WHERE '.join(' AND ',@whereclauses);
 	my $orderby = 'ORDER BY log_time DESC';
 	$sql = join(' ',($selectfrom, $whereclause, $orderby));
 
+	if ( $form_rpp ) {
+		if ( $config->{dsn} =~ /^dbi:Oracle:/i ) {
+			$sql = "SELECT * FROM (".$sql.") WHERE rownum < $form_rpp";
+		} else {
+			$sql .= " LIMIT $form_rpp";
+		}
+	}
 
 	my $sth = $dbh->prepare_cached($sql);
 	$sth->execute(@plhdrs);
@@ -171,12 +209,12 @@ sub rm_system_log {
 		-default => $form_funcid
 	);
 	
-	my $search_field_list = $q->popup_menu(
-		-name => 'search_field',
-		-values => ['host', 'jobid', 'message', 'pid'],
-		-labels => { 'host' => 'Host', 'jobid' => 'Jobid', 'message' => 'Message', 'pid' => 'PID'},
-		-default => $form_search_field
-	);
+#[]	my $search_field_list = $q->popup_menu(
+#		-name => 'search_field',
+#		-values => ['host', 'jobid', 'message', 'pid'],
+#		-labels => { 'host' => 'Host', 'jobid' => 'Jobid', 'message' => 'Message', 'pid' => 'PID'},
+#		-default => $form_search_field
+#	);
 	
 	my $rpp_list = $q->popup_menu(
 		-name => 'rpp',
@@ -211,8 +249,6 @@ sub rm_system_log {
 #print "\n\n";
 #print Dumper(@plhdrs);
 #print "\n\n";
-#print Dumper($form_search_field);
-#print Dumper($form_search_value);
 #print Dumper($slabels);
 #print "\n\n";
 #print Dumper($svalues);
@@ -220,15 +256,18 @@ sub rm_system_log {
 #print Dumper(@log_entries);
 
 	
-	my $tmpl = $self->load_tmpl('system_log.html', die_on_bad_params => 0);
+	my $tmpl = $self->load_tmpl('systemlog.html', die_on_bad_params => 0, loop_context_vars => 1);
 	$tmpl->param(TITLE => "Helios - System Log");
 	$tmpl->param(PRIORITY_LIST => $priorities_field);
 	$tmpl->param(SERVICE_LIST => $service_list);
-	$tmpl->param(SEARCH_FIELD_LIST => $search_field_list);
-	$tmpl->param(SEARCH_VALUE => $form_search_value);
+	$tmpl->param(HOST => $form_host);
+	$tmpl->param(JOBID => $form_jobid);
+	$tmpl->param(PID => $form_pid);
+	$tmpl->param(MESSAGE => $form_message);
 	$tmpl->param(RPP_LIST => $rpp_list);
-	$tmpl->param(TIME_LIST => $time_list);
-	
+#	$tmpl->param(TIME_LIST => $time_list);
+	$tmpl->param(DATE_BEGIN => $form_date_begin);
+	$tmpl->param(DATE_END => $form_date_end);	
 	$tmpl->param(LOG_ENTRIES => \@log_entries);
 
 	return $tmpl->output();	

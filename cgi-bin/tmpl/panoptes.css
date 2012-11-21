@@ -1,0 +1,65 @@
+.panoptes_data_table
+{
+	background-color: lightgray;
+	color: black;
+	border: solid 1px #000000;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+}
+.panoptes_data_table th {
+	background-color: midnightblue; 
+	color: white;
+	font-weight: bold;
+	padding: 5px;
+	text-align: center;
+}
+
+/*
+.panoptes_data_table_head {
+	background-color: midnightblue; 
+	color: white;
+	font-weight: bold;
+	padding: 5px;
+	text-align: center;
+}
+ */
+
+.panoptes_data_table_even {
+	background-color: lightgray;
+	padding: 4px;
+}
+
+.panoptes_data_table_odd {
+	background-color: silver;
+	padding: 4px;
+}
+.panoptes_data_table_even td {
+	background-color: lightgray;
+	padding: 4px;
+}
+
+.panoptes_data_table_odd td {
+	background-color: silver;
+	padding: 4px;
+}
+
+
+.data_number
+{
+ font-size: 10pt;
+ text-align: right;
+ padding: 4px;
+ vertical-align: top;
+}
+
+.data_text
+{
+ font-size: 10pt;
+ text-align: left;
+ padding: 4px;
+ vertical-align: top;
+}
+
+
+</style>

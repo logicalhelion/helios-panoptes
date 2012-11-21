@@ -1,6 +1,5 @@
 cgi-bin/collectiveadmin.pl
 cgi-bin/ctrlpanel.pl
-cgi-bin/errorlog.pl
 cgi-bin/jobinfo.pl
 cgi-bin/jobmanager.pl
 cgi-bin/panoptes.pl
@@ -13,8 +12,19 @@ cgi-bin/tmpl/header.html
 cgi-bin/tmpl/job_queue_view.html
 cgi-bin/tmpl/jobinfo.html
 cgi-bin/tmpl/jobmanager.html
-cgi-bin/tmpl/system_log.html
+cgi-bin/tmpl/panoptes.css
+cgi-bin/tmpl/systemlog.html
 Changes
+html/datetimepicker_css.js
+html/images2/cal.gif
+html/images2/cal_close.gif
+html/images2/cal_fastforward.gif
+html/images2/cal_fastreverse.gif
+html/images2/cal_forward.gif
+html/images2/cal_minus.gif
+html/images2/cal_plus.gif
+html/images2/cal_reverse.gif
+html/index.htm
 lib/Helios/Panoptes.pm
 lib/Helios/Panoptes/Base.pm
 lib/Helios/Panoptes/CollectiveAdmin.pm

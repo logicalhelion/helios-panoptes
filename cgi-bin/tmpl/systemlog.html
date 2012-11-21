@@ -1,0 +1,58 @@
+<tmpl_include name="header.html">
+<script src="/panoptes/datetimepicker_css.js"></script>
+<div class="filter_settings">
+	<form>
+		<table cellspacing="4" border="0"><tr> 
+			<td valign="top">
+				Log Priorities<br />
+				<tmpl_var priority_list>
+			</td>
+			<td valign="top">
+				Service<br />
+				<tmpl_var service_list><br /><br />
+				Date Range&nbsp;<input type="text" name="date_begin" id="begin_date" size="12" value="<tmpl_var date_begin>"><img src="/panoptes/images2/cal.gif" onclick="javascript:NewCssCal('begin_date','yyyyMMdd','arrow',true,24,false)" style="cursor:pointer"/> to <input type="text" name="date_end" id="end_date" size="12" value="<tmpl_var date_end>"><img src="/panoptes/images2/cal.gif" onclick="javascript:NewCssCal('end_date','yyyyMMdd','dropdown',true,24,true)" style="cursor:pointer"/><br /> 
+				<tmpl_var time_list>
+			</td>
+			<td valign="top">
+				Host&nbsp;<input type="text" name="host" size="20" value="<tmpl_var host>" /><br />
+				Jobid&nbsp;<input type="text" name="jobid" size="5" value="<tmpl_var jobid>" />&nbsp;PID&nbsp;<input type="text" name="pid" size="5" value="<tmpl_var pid>" /><br /><br />
+				Message<br /><input type="text" name="message" size="25" value="<tmpl_var message>" />
+			</td>
+			<td valign="top">
+				<tmpl_var rpp_list> Per Page <br />
+				<br />
+				<input type="submit" value="Refresh" />
+			</td>
+		</tr></table>
+	</form>
+</div>
+
+<div class="content">
+<table cellpadding="0" cellspacing="0" class="panoptes_data_table">
+	<tr class="panoptes_data_table_head">
+		<th >Time</th>
+		<th >Host</th>
+		<th >Service</th>
+		<th >Jobid</th>
+		<th >PID</th>
+		<th >Priority</th>
+		<th >Message</th>
+	</tr>
+<tmpl_loop log_entries>
+	<tr class="<tmpl_if __even__>panoptes_data_table_even<tmpl_else>panoptes_data_table_odd</tmpl_if>">
+		<td class="data_text"><tmpl_var log_time></td>
+		<td class="data_text" ><tmpl_var host></td>
+		<td class="data_text"><tmpl_var service></td>
+		<td class="data_number" ><a href="jobinfo.pl?jobid=<tmpl_var jobid>"><tmpl_var jobid></a></td>
+		<td class="data_number"><tmpl_var pid></td>
+		<td class="data_number"><tmpl_var priority></td>
+		<td class="data_text"><tmpl_var message></td>
+	</tr>
+</tmpl_loop>
+</table>
+<br>
+</div>
+
+
+<tmpl_include name="footer.html">
+

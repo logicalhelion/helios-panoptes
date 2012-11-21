@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:               Helios-Panoptes
-version:            1.51_3070
-abstract:           Web administration interface to the Helios distributed job processing system
+version:            1.51_4720
+abstract:           Web administration interface to Helios distributed job processing system
 author:
     - Andrew Johnson <lajandy at cpan dotcom>
 license:            perl
@@ -13,11 +13,10 @@ build_requires:
 requires:
     CGI::Application:     4.06
     CGI::Application::Plugin::DBH:  4
+    CGI::Fast:            1.07
     DBD::Mock:            0.11
-    Helios:               2
+    Helios:               2.6
     HTML::Template:       2.91
-    HTML::Template::Expr:  0.04
-    Parse::RecDescent:    
 no_index:
     directory:
         - t

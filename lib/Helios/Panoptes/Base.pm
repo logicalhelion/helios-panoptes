@@ -5,14 +5,16 @@ use strict;
 use warnings;
 use base qw(CGI::Application);
 use Data::Dumper;
+use Time::Local;
 
 use CGI::Application::Plugin::DBH qw(dbh_config dbh);
 use Data::ObjectDriver::Driver::DBI;
 
+use Helios::Config;
 use Helios::Service;
 use Helios::Error;
 
-our $VERSION = '1.51_2830';
+our $VERSION = '1.51_4667';
 
 our $CONF_PARAMS;
 our %FUNCMAPBYID = ();
@@ -183,6 +185,23 @@ sub parseEpochDate {
 	return $dhash;
 }
 
+=head2 parseDateToEpochSeconds("yyyy-mm-dd hh24:mi:ss")
+
+=cut
+
+sub parseDateToEpochSeconds {
+	my $self = shift;
+	my $date_string = shift;
+	my %dhash;
+	my ($date, $time) = split(/ /, $date_string);
+	
+	($dhash{yyyy}, $dhash{mm}, $dhash{dd}) = split(/-/,$date);
+	($dhash{hh24}, $dhash{mi}, $dhash{ss}) = split(/:/,$time);
+	
+	my $e = timelocal($dhash{ss}, $dhash{mi}, $dhash{hh24}, $dhash{dd}, $dhash{mm}-1, $dhash{yyyy}-1900);
+	return $e;
+}
+
 
 # BEGIN CODE Copyright (C) 2008-9 by CEB Toolbox, Inc.
 
@@ -201,9 +220,14 @@ sub parseConfig {
 	} else {
 		$inifile = './helios.ini';
 	}
-	$self->{service} = Helios::Service->new();
-	$self->{service}->prep();
-	my $config = $self->{service}->getConfig();
+#	$self->{service} = Helios::Service->new();
+#	$self->{service}->prep();
+#	my $config = $self->{service}->getConfig();
+#	$CONF_PARAMS = $config;
+#	return $CONF_PARAMS;
+	Helios::Config->setConfFile($inifile);
+	Helios::Config->setServiceName('Helios::Panoptes');
+	my $config = Helios::Config->parseConfig();
 	$CONF_PARAMS = $config;
 	return $CONF_PARAMS;
 }

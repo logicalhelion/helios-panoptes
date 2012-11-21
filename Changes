@@ -1,4 +1,8 @@
 Revision history for Perl extension Helios::Panoptes.
+1.51_4720 Wed Nov 21 00:00:00 2012
+	-Changes to SystemLog.pm, JobInfo.pm, and their templates to make 
+	 them at least minimally functional with MySQL and Oracle.
+	-Added JavaScript date time picker to templates (FreeBSD license)
 1.51_3070 Sun Jul 29 19:11:00 2012
 	-ctrlpanel.pl/CtrlPanel.pm takes over Ctrl Panel view.  Should 
 	 be functional with MySQL & Oracle collective databases.
