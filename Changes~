@@ -1,8 +1,5 @@
 Revision history for Perl extension Helios::Panoptes.
-1.51_4740 Thu Nov 22 15:15:00 2012
-	-Fix to JobQueue.pm Oracle support.
-	-Visual adjustments to systemlog.html template
-1.51_4667 Wed Nov 21 00:00:00 2012
+1.51_4667
 	-Changes to SystemLog.pm, JobInfo.pm, and their templates to make 
 	 them at least minimally functional.
 1.51_3070 Sun Jul 29 19:11:00 2012

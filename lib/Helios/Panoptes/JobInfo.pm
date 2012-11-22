@@ -9,7 +9,7 @@ use CGI::Application::Plugin::DBH qw(dbh_config dbh);
 
 use Helios::Error;
 
-our $VERSION = '1.51_2820';
+our $VERSION = '1.51_4740';
 
 =head1 NAME
 

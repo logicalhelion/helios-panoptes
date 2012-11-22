@@ -6,7 +6,7 @@ use warnings;
 use base qw(Helios::Panoptes::Base);
 use Data::Dumper;
 
-our $VERSION = '1.51_3070';
+our $VERSION = '1.51_4740';
 
 # we have to do setup to establish runmode(s)
 sub setup {

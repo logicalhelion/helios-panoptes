@@ -7,7 +7,7 @@ use base 'Helios::Panoptes::Base';
 
 use CGI::Application::Plugin::DBH qw(dbh_config dbh);
 
-our $VERSION = '1.51_2830';
+our $VERSION = '1.51_4740';
 
 sub setup {
 	my $self = shift;
@@ -364,7 +364,7 @@ sub rm_job_history {
 	my $form_thorizon;
 
 	# this is where it gets tricky...
-	if ( $config->{dsn} =~ /\:oracle/i ) {
+	if ( $config->{dsn} =~ /^dbi:Oracle:/i ) {
 		# you're using Oracle!  Big collective you've got there!
 		# need a consultant to help you out?  Contact me!  :)
 		$sql = q{
@@ -541,7 +541,7 @@ sub rm_job_history_count {
 	my $form_thorizon;
 	my $form_status;
 
-	if ( $config->{dsn} =~ /\:oracle/i) {
+	if ( $config->{dsn} =~ /^dbi:Oracle:/i) {
 		$sql = q{
 			SELECT funcid, exitstatus, count(*)
 			FROM (

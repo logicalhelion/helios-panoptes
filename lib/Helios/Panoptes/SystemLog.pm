@@ -8,7 +8,7 @@ use Data::Dumper;
 
 use CGI::Application::Plugin::DBH qw(dbh_config dbh);
 
-our $VERSION = '1.51_4720';
+our $VERSION = '1.51_4740';
 
 sub setup {
 	my $self = shift;

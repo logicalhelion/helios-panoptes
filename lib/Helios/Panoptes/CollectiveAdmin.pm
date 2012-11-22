@@ -7,7 +7,7 @@ use base 'Helios::Panoptes::Base';
 
 use CGI::Application::Plugin::DBH qw(dbh_config dbh);
 
-our $VERSION = '1.51_2830';
+our $VERSION = '1.51_4740';
 
 sub setup {
 	my $self = shift;

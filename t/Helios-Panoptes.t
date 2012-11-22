@@ -5,8 +5,17 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 1;
-BEGIN { use_ok('Helios::Panoptes') };
+use Test::More tests => 7;
+BEGIN { 
+	use_ok('Helios::Panoptes'); 
+	use_ok('Helios::Panoptes::Base'); 
+	use_ok('Helios::Panoptes::CollectiveAdmin'); 
+	use_ok('Helios::Panoptes::CtrlPanel'); 
+	use_ok('Helios::Panoptes::JobInfo'); 
+	use_ok('Helios::Panoptes::JobQueue'); 
+	use_ok('Helios::Panoptes::SystemLog'); 
+
+};
 
 #########################
 

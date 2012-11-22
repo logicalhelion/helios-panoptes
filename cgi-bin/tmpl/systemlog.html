@@ -2,7 +2,7 @@
 <script src="/panoptes/datetimepicker_css.js"></script>
 <div class="filter_settings">
 	<form>
-		<table cellspacing="4" border="0"><tr> 
+		<table cellspacing="4" border="1"><tr> 
 			<td valign="top">
 				Log Priorities<br />
 				<tmpl_var priority_list>
@@ -10,7 +10,7 @@
 			<td valign="top">
 				Service<br />
 				<tmpl_var service_list><br /><br />
-				Date Range&nbsp;<input type="text" name="date_begin" id="begin_date" size="12" value="<tmpl_var date_begin>"><img src="/panoptes/images2/cal.gif" onclick="javascript:NewCssCal('begin_date','yyyyMMdd','arrow',true,24,false)" style="cursor:pointer"/> to <input type="text" name="date_end" id="end_date" size="12" value="<tmpl_var date_end>"><img src="/panoptes/images2/cal.gif" onclick="javascript:NewCssCal('end_date','yyyyMMdd','dropdown',true,24,true)" style="cursor:pointer"/><br /> 
+				Date Range<br /><input type="text" name="date_begin" id="begin_date" size="12" value="<tmpl_var date_begin>"><img src="/panoptes/images2/cal.gif" onclick="javascript:NewCssCal('begin_date','yyyyMMdd','arrow',true,24,false)" style="cursor:pointer"/> to <input type="text" name="date_end" id="end_date" size="12" value="<tmpl_var date_end>"><img src="/panoptes/images2/cal.gif" onclick="javascript:NewCssCal('end_date','yyyyMMdd','arrow',true,24,false)" style="cursor:pointer"/><br /> 
 				<tmpl_var time_list>
 			</td>
 			<td valign="top">
@@ -28,7 +28,7 @@
 </div>
 
 <div class="content">
-<table cellpadding="0" cellspacing="0" class="panoptes_data_table">
+<table cellpadding="0" cellspacing="0" border="1" class="panoptes_data_table">
 	<tr class="panoptes_data_table_head">
 		<th >Time</th>
 		<th >Host</th>
