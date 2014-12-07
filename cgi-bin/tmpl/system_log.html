@@ -1,0 +1,65 @@
+<tmpl_include name="header.html">
+<div class="filter_settings">
+<form method="post" action="<tmpl_var script_name>">
+	<table cellspacing="4" border="0"><tr> 
+		<td valign="top">
+			Log Priorities<br />
+			<tmpl_var name="priority_list" escape="none">
+		</td>
+		<td valign="top">
+			Jobtype<br />
+			<tmpl_var name="jobtype_list" escape="none"><br /><br />
+			Date Range<br /><input type="text" name="date_begin" id="begin_date" size="12" value="<tmpl_var date_begin>"><img src="" onclick="alert('Not implemented yet!');" /> to <input type="text" name="date_end" id="end_date" size="12" value="<tmpl_var date_end>"><img src="" onclick="alert('Not implemented yet!');" /><br /> 
+			<tmpl_var time_list>
+		</td>
+		<td valign="top">
+			Host&nbsp;<input type="text" name="host" size="20" value="<tmpl_var host>" /><br />
+			Jobid&nbsp;<input type="text" name="jobid" size="5" value="<tmpl_var jobid>" />&nbsp;PID&nbsp;<input type="text" name="pid" size="5" value="<tmpl_var pid>" /><br /><br />
+			Message<br /><input type="text" name="message" size="25" value="<tmpl_var message>" />
+		</td>
+		<td valign="top">
+			<tmpl_var name="rpp_list" escape="none"> Per Page <br />
+			<br />
+			<input type="submit" value="Refresh" />
+		</td>
+	</tr></table>
+</form>
+</div>
+<p>&#160;<br /></p>
+<div style="margin: 0px; padding: 0px;">
+<tmpl_if log_entries>
+<table border="0" width="100%" cellspacing="0"style="padding: 5px;">
+	<thead>
+		<tr class="class">
+			<th >Time</th>
+			<th >Host</th>
+			<th >Service</th>
+			<th >Jobid</th>
+			<th >PID</th>
+			<th >Priority</th>
+			<th >Message</th>
+		</tr>
+	</thead>
+	<tbody>
+<tmpl_loop log_entries>
+		<tr style="<tmpl_if __even__>background-color: silver;<tmpl_else>background-color: lightgray;</tmpl_if>">
+			<td style="padding: 5px;"><tmpl_var log_time></td>
+			<td ><tmpl_var host></td>
+			<td ><tmpl_var service></td>
+			<td ><a href="jobinfo.pl?jobid=<tmpl_var jobid>"><tmpl_var jobid></a></td>
+			<td ><tmpl_var pid></td>
+			<td ><tmpl_var priority></td>
+			<td ><tmpl_var message></td>
+		</tr>
+</tmpl_loop>
+	</tbody>
+</table>
+<tmpl_else>
+<p>No log entries found.</p>
+</tmpl_if>
+</div>
+
+<p>
+&#160;<br />
+</p>
+<tmpl_include name="footer.html">
